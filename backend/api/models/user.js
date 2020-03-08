@@ -23,6 +23,7 @@ const tokenForUser = async (user, language) => {
 
 exports.login = async (req, res, next) => {
   try {
+      res.send('OK');
   } catch (err) {
     console.log("Login exception", err);
     return res.status(500).send({ status: -1, error: "err" });

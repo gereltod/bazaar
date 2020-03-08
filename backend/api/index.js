@@ -1,8 +1,9 @@
-const expess = require("express");
+const express = require("express");
 const http = require("http");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
+const cors = require('cors');
 
 const env_result = dotenv.config();
 
@@ -41,7 +42,6 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Something broke!')
 });
 
-require('./routers/productRouter')(app);
 require('./routers/userRouter')(app);
 
 const port = process.env.PORT || 2999;

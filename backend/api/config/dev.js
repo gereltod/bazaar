@@ -6,6 +6,6 @@ module.exports = {
     ttl_redis_generatecode: 300,
     limit_neg_second_holbolt: 70,
     limit_block_hiih_hugatsaa: 600,
-    REDIS_TOKEN_URL: "redis://10.0.0.3:6379",
+    REDIS_TOKEN_URL: "redis://localhost:6379",
   };
   
