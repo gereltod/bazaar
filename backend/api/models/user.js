@@ -2,6 +2,7 @@ const { token } = require("../redis");
 const pick = require("lodash/pick");
 const Reg = require('../helpers/validationReg')
 const keys = require('../config/keys');
+const knex = require('../db/knex');
 
 const tokenForUser = async (user, language) => {
   let timestamp = new Date().getTime();
@@ -32,9 +33,22 @@ exports.login = async (req, res, next) => {
 
 exports.registerUser = async (req, res, next) => {
   try {
-    let body = pick(req.body, ["email", "password"]);
+    let body = pick(req.body, ["username", "password"]);
 
-    const usermail = body.email;
+    var users = await knex('users').where('username', '=', body.username).first();
+    console.log(users);
+    if(users === undefined){
+      var newUser = {
+        'username':body.username,
+        'password':body.password
+      }
+
+      var id = await knex('users').insert(newUser, 'user_id');
+      console.log('user_id:', id[0]);
+    }
+    res.json(users);
+
+    const usermail = body.username;
     if (!Reg.Email.test(usermail) && usermail.length > Reg.Email_Limit) {
       res
         .status(403)
