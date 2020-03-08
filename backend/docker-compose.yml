@@ -1,0 +1,149 @@
+version: '3'
+
+services:
+  rediscache:
+    image: redis:4.0.11
+    restart: always
+    container_name: rediscache
+    #command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./redis/:/data/
+    expose:
+      - 6379
+    networks:
+      - databases
+  
+  nginx:
+    build: ./proxy
+    restart: always    
+    networks:
+      - nodes
+    ports:
+      - "80:80"
+      - "86:86"
+    volumes:
+      - "./cert/:/var/nginx/"
+      - "./logs:/var/logs"
+  
+  node1:
+    build: ./src
+    restart: always
+    #mem_limit: 512m
+    environment:
+      #- REDIS_URL=redis://rediscache
+      - CRON_JOB=YES
+      #- NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
+    volumes:
+      - "./logs/node1:/root/.npm/_logs/"
+      - "./html/:/usr/src/app/html"      
+    networks:
+      - nodes
+      - databases
+  
+  node2:
+    build: ./src
+    restart: always
+    #mem_limit: 512m
+    environment:
+      #- REDIS_URL=redis://rediscache
+      - CRON_JOB=NO
+      #- NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
+    volumes:
+      - "./logs/node2:/root/.npm/_logs/"
+      - "./html/:/usr/src/app/html"      
+    networks:
+      - nodes
+      - databases
+    # deploy:
+    #   recources:
+    #     limits:
+    #       cpus: "0.10"
+    #       memory: 400m
+
+  node3:
+    build: ./src
+    restart: always
+    #mem_limit: 512m
+    environment:
+      #- REDIS_URL=redis://rediscache
+      #- NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
+      - CRON_JOB=NO
+    volumes:
+      - "./logs/node3:/root/.npm/_logs/"
+      - "./html/:/usr/src/app/html"      
+    networks:
+      - nodes
+      - databases
+    # deploy:
+    #   recources:
+    #     limits:
+    #       cpus: "0.10"
+    #       memory: 400m
+    
+  node4:
+    build: ./src
+    restart: always
+    #mem_limit: 512m
+    environment:
+      #- REDIS_URL=redis://rediscache
+      #- NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
+      - CRON_JOB=NO
+    volumes:
+      - "./logs/node4:/root/.npm/_logs/"
+      - "./html/:/usr/src/app/html"      
+    networks:
+      - nodes
+      - databases
+    # deploy:
+    #   recources:
+    #     limits:
+    #       cpus: "0.10"
+    #       memory: 400m
+
+  nodeimage1:
+    build: ./image_backend/src
+    restart: always
+    environment:
+      #- REDIS_URL=redis://rediscache
+      - NODE_ENV=${NODE_ENV}
+    volumes:
+      - "./logs/nodeimage1:/root/.npm/_logs/"
+      - "../uploads:/usr/src/app/uploads"
+    networks:
+      - nodes
+      - databases
+  
+  nodeimage2:
+    build: ./image_backend/src
+    restart: always
+    environment:
+      #- REDIS_URL=redis://rediscache
+      - NODE_ENV=${NODE_ENV}
+    volumes:
+      - "./logs/nodeimage2:/root/.npm/_logs/"
+      - "../uploads:/usr/src/app/uploads"
+    networks:
+      - nodes
+      - databases
+  
+  nodeimage3:
+    build: ./image_backend/src
+    restart: always
+    environment:
+      #- REDIS_URL=redis://rediscache
+      - NODE_ENV=${NODE_ENV}
+    volumes:
+      - "./logs/nodeimage3:/root/.npm/_logs/"
+      - "../uploads:/usr/src/app/uploads"
+    networks:
+      - nodes
+      - databases  
+
+  
+networks:
+  nodes:
+  databases:
