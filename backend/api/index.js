@@ -43,6 +43,7 @@ app.use(function (err, req, res, next) {
 });
 
 require('./routers/userRouter')(app);
+require('./routers/productRouter')(app);
 
 const port = process.env.PORT || 2999;
 const server = http.createServer(app);

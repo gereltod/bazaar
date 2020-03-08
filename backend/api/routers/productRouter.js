@@ -3,17 +3,16 @@ const passport = require("passport");
 const requireAuth = passport.authenticate("jwt", { session: false });
 const product = require('../models/product');
 
-const { validateBody, schemas } = require('../validate/userCheck');
+const { validateBody, schemas } = require('../validates/userCheck');
 
 module.exports = (app) => {
 
-    //mobile
-    app.get('/api/products', advertising.getAdv);
-    app.patch('/api/product/add', advertising.logAdv);
+    //everyone
+    app.get('/api/products', product.productList);
+    app.get('/api/product/:product_id', product.productGet);
 
-    //web
-    app.get('/api/admin/products', requireAuth, advertising.listWebAdv);
-    app.post('/api/admin/prodcuts', requireAuth, advertising.getDirectory);
-    app.patch('/api/Web/Adv/status', requireAuth, advertising.updateAdvStatus);
-    app.delete('/api/admin/product/:productid', requireAuth, )
+    //admin
+    // app.get('/api/admin/products', requireAuth, advertising.listWebAdv);
+    // app.post('/api/admin/prodcuts', requireAuth, advertising.getDirectory);
+    // app.delete('/api/admin/product/:productid', requireAuth, )
 }
