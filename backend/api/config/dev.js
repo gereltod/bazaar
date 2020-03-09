@@ -1,5 +1,6 @@
 module.exports = {
     secret: "BAZAAAAAAAAAAAAAAAAR022882289292929&&**#&*#*#**#*#&#&#**@99938822",
+    filePath: "../../uploads/",
     ttl_redis: "10",
     ttl_redis_library: 1800,
     ttl_redis_db_query: 60,

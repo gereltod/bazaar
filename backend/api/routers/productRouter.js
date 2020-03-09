@@ -10,9 +10,10 @@ module.exports = (app) => {
     //everyone
     app.get('/api/products', product.productList);
     app.get('/api/product/:product_id', product.productGet);
+    app.get('/api/image/:imagename', product.getImage);
 
     //admin
-    // app.get('/api/admin/products', requireAuth, advertising.listWebAdv);
+    app.post('/api/admin/products', requireAuth, product.productAdd);
     // app.post('/api/admin/prodcuts', requireAuth, advertising.getDirectory);
     // app.delete('/api/admin/product/:productid', requireAuth, )
 }

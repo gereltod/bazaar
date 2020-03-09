@@ -1,0 +1,4 @@
+INSERT INTO bazaar.products (product_id,product_name,product_desc,product_image,product_image,product_quantity,product_price,product_category) VALUES (1,'Hard disk', 'tesdasd asd fasd fasd ','image1.jpg',1,200,1);
+INSERT INTO bazaar.products (product_id,product_name,product_desc,product_image,product_image,product_quantity,product_price,product_category) VALUES (2,'Flash disk', 'tesdasd asd fasd fasd ','image2.jpg',1,200,1);
+INSERT INTO bazaar.products (product_id,product_name,product_desc,product_image,product_image,product_quantity,product_price,product_category) VALUES (3,'Test disk', 'tesdasd asd fasd fasd ','image3.jpg',1,200,1);
+INSERT INTO bazaar.products (product_id,product_name,product_desc,product_image,product_image,product_quantity,product_price,product_category) VALUES (4,'asdf disk', 'tesdasd asd fasd fasd ','image4.jpg',1,200,1);
