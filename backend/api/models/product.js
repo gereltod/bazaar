@@ -51,7 +51,7 @@ exports.productGet = async (req, res, next) => {
       });
     res.json(products);
   } catch (err) {
-    console.log("productList exception", err);
+    console.log("productGet exception", err);
     return res.status(500).send({ status: -1, error: "err" });
   }
 };
