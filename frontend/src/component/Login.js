@@ -1,55 +1,88 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { ROOT_URL } from "../config/config";
+import React, { useContext } from "react";
+import { loginApi } from "../utils/api";
+import { UserContext } from "./context/userContext";
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { username: "ojuu@ojuu11.com", password: "asdf@123" };
-  }
-  handleChange(e) {
-    this.setState({ username: e.target.value });
-  }
-  handleChangePassword(e) {
-    this.setState({ password: e.target.value });
-  }
-  handleSubmit(e) {
-    //call the api here with current state value (this.state.username)
-    e.preventDefault();
-    const user = {};
-    axios
-      .post(`${ROOT_URL}/api/login`, {
-        username: this.state.username,
-        password: this.state.password
-      })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-        localStorage.setItem('bazaar_token', res.data.user.token);
-        window.location = "/"; //This line of code will redirect you once the submission is succeed
+export function Login() {
+  const { user, setUser } = useContext(UserContext);
+  const [userEmail, setUserEmail] = React.useState("");
+  const [userPassword, setUserPassword] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+
+  // handleChange(e) {
+  //   this.setState({ username: e.target.value });
+  // }
+  // handleChangePassword(e) {
+  //   this.setState({ password: e.target.value });
+  // }
+  // handleSubmit = async (e) => {
+  //   //call the api here with current state value (this.state.username)
+  //   e.preventDefault();
+  //   const user = {};
+
+  //   // axios
+  //   //   .post(`${ROOT_URL}/api/login`, {
+  //   //     username: this.state.username,
+  //   //     password: this.state.password
+  //   //   })
+  //   //   .then(res => {
+  //   //     console.log(res);
+  //   //     console.log(res.data);
+  //   //     localStorage.setItem('bazaar_token', res.data.user.token);
+  //   //     window.location = "/"; //This line of code will redirect you once the submission is succeed
+  //   //   });
+  // }
+
+  const authHandler = async () => {
+    try {
+      setLoading(true);
+      const result = await loginApi({
+        username: userEmail,
+        password: userPassword
       });
-  }
-  render() {
-    return (
-      <form>
+      if (!result.error) {
+        console.log(result);
+        setUser(result.user);
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      setLoading(false);
+      //showError(err.message);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={async e => {
+        e.preventDefault();
+        authHandler();
+      }}
+    >
+      <header>Sign in</header>
+      <br />
+      <formgroup>
         <input
-          onChange={this.handleChange.bind(this)}
-          type="text"
-          name="username"
-          value={this.state.username}
-          placeholder="email"
+          type="email"
+          name="email"
+          value={userEmail}
+          placeholder="ojuu@ojuu11.com"
+          onChange={e => setUserEmail(e.target.value)}
         />
+      </formgroup>
+      <formgroup>
         <input
-          onChange={this.handleChangePassword.bind(this)}
-          type="text"
+          type="password"
           name="password"
-          value={this.state.password}
-          placeholder="password"
+          value={userPassword}
+          placeholder="asdf@123"
+          onChange={e => setUserPassword(e.target.value)}
         />
-        <button onClick={this.handleSubmit.bind(this)}>Submit</button>
-      </form>
-    );
-  }
+      </formgroup>
+      <button type="submit" disabled={loading} block={"true"}>
+        {loading ? "Loading..." : "Sign In"}
+      </button>
+    </form>
+  );
 }
 
 export default Login;

@@ -1,21 +1,50 @@
-import React from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import React, { useContext } from "react";
+import { Link, withRouter } from "react-router-dom";
+import { UserContext } from "./context/userContext";
 
-// The Header creates links that can be used to navigate
-// between routes.
-const Header = () => (
-   
-  <header>
-    <nav>
-      <ul>
-        <li><Link to='/'>Home</Link></li>
-        { !localStorage.getItem('bazaar_token') && <li><Link to='/login'>Login</Link></li>}
-        { !!localStorage.getItem('bazaar_token') && <li><Link to='/logout'>Log out</Link></li>}
-        <li><Link to='/create'>Create user</Link></li>
-        { !!localStorage.getItem('bazaar_token') && <li><Link to='/createproduct'>Create product</Link></li>}
-      </ul>
-    </nav>
-  </header>
-)
+export function Header() {
+  const { user, setUser } = useContext(UserContext);
 
-export default withRouter(Header)
+  return (
+    <header>
+      {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          {!user ? (
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+          ) : (
+            <li>
+              <button
+                onClick={() => {
+                  setUser(null);
+                }}
+              >
+                Log out
+              </button>
+            </li>
+          )}
+           {!user ? (
+          <li>
+            <Link to="/create">Create user</Link>
+          </li>):(
+             <li>
+             <Link to="/profile">User profile</Link>
+           </li>
+          )}
+          {user && (
+            <li>
+              <Link to="/createproduct">Create product</Link>
+            </li>
+          )}
+        </ul>
+      </nav>
+    </header>
+  );
+}
+
+export default Header;
