@@ -20,7 +20,7 @@ function Main() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/basket" component={Basket} />
+        <Route exact path="/baskets" component={Basket} />
         <Route exact path="/profile" component={UserProfile} />
         <Route exact path="/createproduct" component={ProductAdd} />
       </Switch>

@@ -9,7 +9,7 @@ export function Basket(){
     return (
         <div>
             <h2>Basket</h2>
-            <div>{msg}</div>
+            <div>test</div>
         </div>
     );
 }

@@ -26,14 +26,25 @@ export const loginApi = async formProps => {
 
 export const productListApi = async formProps => {
   try {
-    console.log(formProps);
-
     const response = await axios.get(`${ROOT_URL}/api/products`);
     if (response.status === 200) {
       return response.data.data;
     } else {
       return [];
     }
+  } catch (e) {
+    return [];
+  }
+};
+
+export const addProductApi = async formProps => {
+  try {
+    axios.defaults.headers.common["Authorization"] =
+      "JWT " + localStorage.getItem("bazaar_token");
+    const response = await axios.post(`${ROOT_URL}/api/baskets`, {
+      formProps
+    });
+   
   } catch (e) {
     return [];
   }

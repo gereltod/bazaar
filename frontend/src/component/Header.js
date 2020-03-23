@@ -38,6 +38,11 @@ export function Header() {
           )}
           {user && (
             <li>
+              <Link to="/baskets">Baskets</Link>
+            </li>
+          )}
+          {user && (
+            <li>
               <Link to="/createproduct">Create product</Link>
             </li>
           )}

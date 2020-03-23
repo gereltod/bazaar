@@ -1,9 +1,9 @@
 import React from "react";
 import { ROOT_URL } from "../config/config";
-import { productListApi } from "../utils/api";
+import { productListApi, addProductApi } from "../utils/api";
 
 function RenderData({dataapi}){
-  console.log(dataapi);
+  
   if (dataapi!==null) {
     return dataapi.map(data => {
       return (
@@ -19,9 +19,16 @@ function RenderData({dataapi}){
             <div className="card-body">
               <h5 className="card-title">{data.product_name}</h5>
               <p className="card-text">{data.product_desc}</p>
-              <a href="#" className="btn btn-primary">
+              <button className="btn btn-primary" onClick={()=>{
+                data.price = data.product_price;
+                data.quantity = 1;
+                var jsonprod= JSON.stringify(data);
+                console.log(jsonprod);
+                
+                addProductApi(jsonprod)
+              }}>
                 Buy {data.product_price}
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -40,7 +47,6 @@ export function Home() {
       setLoading(true);
       const data = await productListApi({});
       setLoading(false);
-      console.log(data)
       setProduct(data);
     };
     getProductList();
