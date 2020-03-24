@@ -1,6 +1,6 @@
 import React from "react";
 import { ROOT_URL } from "../config/config";
-import { productListApi, addProductApi } from "../utils/api";
+import { productListApi, addBasketApi } from "../utils/api";
 
 function RenderData({dataapi}){
   
@@ -22,10 +22,8 @@ function RenderData({dataapi}){
               <button className="btn btn-primary" onClick={()=>{
                 data.price = data.product_price;
                 data.quantity = 1;
-                var jsonprod= JSON.stringify(data);
-                console.log(jsonprod);
                 
-                addProductApi(jsonprod)
+                addBasketApi(data)
               }}>
                 Buy {data.product_price}
               </button>
